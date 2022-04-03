@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
+import { TodoForm } from "./components/todo/TodoForm";
 
 class App extends Component {
   constructor() {
@@ -30,9 +31,9 @@ class App extends Component {
           <p>Todo-app React Legacy.</p>
         </header>
         <div className="Todo-App">
-          <form>
-            <input type="text" onChange={this.handleInputChange} value={ this.state.currentTodo }/>
-          </form>
+          <TodoForm handleInputChange={this.handleInputChange}
+            currentTodo={this.state.currentTodo}
+          />
           <div className="Todo-List">
             <ul>
               {this.state.todos.map((todo) => (
