@@ -31,10 +31,12 @@ class App extends Component {
           <p>Todo-app React Legacy.</p>
         </header>
         <div className="Todo-App">
-          <TodoForm handleInputChange={this.handleInputChange}
+          <TodoForm
+            handleInputChange={this.handleInputChange}
             currentTodo={this.state.currentTodo}
+            //currentTodo={32}    -> tira error de type en la consola pues le pusimos PropType string
           />
-          <TodoList todos={ this.state.todos}/>
+          <TodoList todos={this.state.todos} />
         </div>
       </div>
     );
