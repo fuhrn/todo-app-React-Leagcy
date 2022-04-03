@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 15vmin;
   pointer-events: none;
 }
 
@@ -15,7 +15,8 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 300px;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,4 +36,22 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Todo-App {
+  padding-top: 20px;
+  display: inline-block;
+  text-align: left;
+}
+
+input {
+  font-size: 20px;
+}
+
+ul {
+  padding: 0px;
+}
+
+li {
+  list-style-type: none;
 }
