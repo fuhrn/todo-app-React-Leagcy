@@ -8,13 +8,13 @@ export const TodoList = (props) => {
     <div className="Todo-List">
       <ul>
         {props.todos.map((todo) => (
-          <TodoItem key={todo.id} {...todo} />
+          <TodoItem key={todo.id} handleToggle={props.handleToggle} {...todo} />
         ))}
       </ul>
     </div>
   );
-}
+};
 
 TodoList.propTypes = {
-  todos: PropTypes.array.isRequired
-}
+  todos: PropTypes.array.isRequired,
+};

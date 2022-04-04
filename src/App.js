@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
 import { TodoForm, TodoList } from "./components/todo";
-import { addTodo, generateId } from "./lib/todoHelpers";
+import { addTodo, generateId, findById, toggleTodo, updateTodo } from "./lib/todoHelpers";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -14,6 +14,13 @@ class App extends Component {
     ],
     currentTodo: "",
   };
+
+  handleToggle = (id) => {
+    const todo = findById(id, this.state.todos)
+    const toggled = toggleTodo(todo)
+    const updatedTodos = updateTodo(this.state.todos, toggled)
+    this.setState({todos: updatedTodos})
+  }
 
   // React agrego "Property Initializer Syntax (PIS)". Vamos a demostrarlo transformando el constructor en un
   // property initializer. Y podemos luego tambien evitar el binding de los metodos de la clase
@@ -92,7 +99,7 @@ class App extends Component {
             //currentTodo={32}    -> tira error de type en la consola pues le pusimos PropType string
             handleSubmit={submitHandler}
           />
-          <TodoList todos={this.state.todos} />
+          <TodoList handleToggle={this.handleToggle} todos={this.state.todos} />
         </div>
       </div>
     );
