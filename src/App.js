@@ -13,7 +13,7 @@ import {
   removeTodo,
   filterTodos,
 } from "./lib/todoHelpers";
-import { loadTodos, createTodo } from "./lib/todoService";
+import { loadTodos, createTodo, saveTodo } from "./lib/todoService";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -48,6 +48,7 @@ class App extends Component {
     const toggled = toggleTodo(todo);
     const updatedTodos = updateTodo(this.state.todos, toggled);
     this.setState({ todos: updatedTodos });
+    saveTodo(toggled).then(() => this.showTempMessage('Todo Updated'));
   };
 
   // React agrego "Property Initializer Syntax (PIS)". Vamos a demostrarlo transformando el constructor en un
