@@ -59,3 +59,21 @@ li {
 .error {
   color: red;
 }
+
+li span.delete-item {
+  visibility: hidden;
+}
+
+span.delete-item a {
+  text-decoration: none;;
+  color: red;
+}
+
+li:hover span.delete-item {
+  visibility: visible;
+}
+
+.Footer a {
+  padding-left: 3px;
+  padding-right: 3px;
+}

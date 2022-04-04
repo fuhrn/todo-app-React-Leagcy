@@ -1,8 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
-import { TodoForm, TodoList } from "./components/todo";
-import { addTodo, generateId, findById, toggleTodo, updateTodo } from "./lib/todoHelpers";
+import { TodoForm, TodoList, Footer } from "./components/todo";
+import { addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo } from "./lib/todoHelpers";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -14,6 +14,12 @@ class App extends Component {
     ],
     currentTodo: "",
   };
+
+  handleRemove = (id, event) => {
+    event.preventDefault()
+    const updatedTodos = removeTodo(this.state.todos, id)
+    this.setState({todos: updatedTodos})
+  }
 
   handleToggle = (id) => {
     const todo = findById(id, this.state.todos)
@@ -99,7 +105,12 @@ class App extends Component {
             //currentTodo={32}    -> tira error de type en la consola pues le pusimos PropType string
             handleSubmit={submitHandler}
           />
-          <TodoList handleToggle={this.handleToggle} todos={this.state.todos} />
+          <TodoList
+            handleToggle={this.handleToggle}
+            todos={this.state.todos}
+            handleRemove = {this.handleRemove}
+          />
+          <Footer />
         </div>
       </div>
     );
