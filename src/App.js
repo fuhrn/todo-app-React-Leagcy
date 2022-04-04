@@ -5,48 +5,77 @@ import { TodoForm, TodoList } from "./components/todo";
 import { addTodo, generateId } from "./lib/todoHelpers";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      todos: [
-        { id: 1, name: "Learn JSX", isComplete: true },
-        { id: 2, name: "Build an Awesome App", isComplete: false },
-        { id: 3, name: "Ship It!", isComplete: false },
-      ],
-      currentTodo: "",
-    };
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
-  }
+  // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
+  state = {
+    todos: [
+      { id: 1, name: "Learn JSX", isComplete: true },
+      { id: 2, name: "Build an Awesome App", isComplete: false },
+      { id: 3, name: "Ship It!", isComplete: false },
+    ],
+    currentTodo: "",
+  };
 
-  handleInputChange(event) {
+  // React agrego "Property Initializer Syntax (PIS)". Vamos a demostrarlo transformando el constructor en un
+  // property initializer. Y podemos luego tambien evitar el binding de los metodos de la clase
+
+  // Luego de transformar todo a PIS me va a aparecer en console warning de "useless constructor" --> entonces lo borro
+  // constructor() {
+  //   super();
+
+    // this.state = {
+    //   todos: [
+    //     { id: 1, name: "Learn JSX", isComplete: true },
+    //     { id: 2, name: "Build an Awesome App", isComplete: false },
+    //     { id: 3, name: "Ship It!", isComplete: false },
+    //   ],
+    //   currentTodo: "",
+    // };
+
+    // si usamos PIS no necesitamos usar este extra binding. Para ello necesitamos a setear las funciones como properties
+    // this.handleInputChange = this.handleInputChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
+  // }
+
+  // seteamos handleInputChange como propiedad
+  handleInputChange = (event) => {
+    //handleInputChange(event) {
     this.setState({
       currentTodo: event.target.value,
     });
-  }
+  };
 
-  handleSubmit(event) {
-    event.preventDefault()
-    const newId = generateId()
-    const newTodo = { id: newId, name: this.state.currentTodo, isComplete: false }
-    const updatedTodos = addTodo(this.state.todos, newTodo)
+  // seteamos handleSubmit como propiedad
+  handleSubmit = (event) => {
+  // handleSubmit(event) {
+    event.preventDefault();
+    const newId = generateId();
+    const newTodo = {
+      id: newId,
+      name: this.state.currentTodo,
+      isComplete: false,
+    };
+    const updatedTodos = addTodo(this.state.todos, newTodo);
     this.setState({
       todos: updatedTodos,
-      currentTodo: '',
-      errorMessage: ''
-    })
+      currentTodo: "",
+      errorMessage: "",
+    });
   }
 
-  handleEmptySubmit(event) {
-    event.preventDefault()
+  // seteamos handleEmptySubmit como propiedad
+  handleEmptySubmit = (event) => {
+  // handleEmptySubmit(event) {
+    event.preventDefault();
     this.setState({
-      errorMessage: 'Please supply a todo name'
-    })
+      errorMessage: "Please supply a todo name",
+    });
   }
 
   render() {
-    const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit
+    const submitHandler = this.state.currentTodo
+      ? this.handleSubmit
+      : this.handleEmptySubmit;
     return (
       <div className="App">
         <header className="App-header">
@@ -54,7 +83,9 @@ class App extends Component {
           <p>Todo-app React Legacy.</p>
         </header>
         <div className="Todo-App">
-          {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
+          {this.state.errorMessage && (
+            <span className="error">{this.state.errorMessage}</span>
+          )}
           <TodoForm
             handleInputChange={this.handleInputChange}
             currentTodo={this.state.currentTodo}
