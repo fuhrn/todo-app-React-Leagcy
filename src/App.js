@@ -17,6 +17,7 @@ class App extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
   }
 
   handleInputChange(event) {
@@ -32,11 +33,20 @@ class App extends Component {
     const updatedTodos = addTodo(this.state.todos, newTodo)
     this.setState({
       todos: updatedTodos,
-      currentTodo: ''
+      currentTodo: '',
+      errorMessage: ''
+    })
+  }
+
+  handleEmptySubmit(event) {
+    event.preventDefault()
+    this.setState({
+      errorMessage: 'Please supply a todo name'
     })
   }
 
   render() {
+    const submitHandler = this.state.currentTodo ? this.handleSubmit : this.handleEmptySubmit
     return (
       <div className="App">
         <header className="App-header">
@@ -44,11 +54,12 @@ class App extends Component {
           <p>Todo-app React Legacy.</p>
         </header>
         <div className="Todo-App">
+          {this.state.errorMessage && <span className="error">{this.state.errorMessage}</span>}
           <TodoForm
             handleInputChange={this.handleInputChange}
             currentTodo={this.state.currentTodo}
             //currentTodo={32}    -> tira error de type en la consola pues le pusimos PropType string
-            handleSubmit={this.handleSubmit}
+            handleSubmit={submitHandler}
           />
           <TodoList todos={this.state.todos} />
         </div>
