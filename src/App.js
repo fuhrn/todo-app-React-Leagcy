@@ -13,7 +13,7 @@ import {
   removeTodo,
   filterTodos,
 } from "./lib/todoHelpers";
-import { loadTodos } from "./lib/todoService";
+import { loadTodos, createTodo } from "./lib/todoService";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -96,6 +96,7 @@ class App extends Component {
       currentTodo: "",
       errorMessage: "",
     });
+    createTodo(newTodo).then(() => console.log('Todo added'));
   };
 
   // seteamos handleEmptySubmit como propiedad
