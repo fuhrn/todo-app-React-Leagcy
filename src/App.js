@@ -1,8 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import { TodoForm, TodoList, Footer } from "./components/todo";
-import { addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo } from "./lib/todoHelpers";
+import { addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo, filterTodos } from "./lib/todoHelpers";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -14,6 +16,13 @@ class App extends Component {
     ],
     currentTodo: "",
   };
+
+
+  // vamos a tomar la ruta actual desde context
+  static contextTypes = {
+    route: PropTypes.string
+  }
+
 
   handleRemove = (id, event) => {
     event.preventDefault()
@@ -89,6 +98,9 @@ class App extends Component {
     const submitHandler = this.state.currentTodo
       ? this.handleSubmit
       : this.handleEmptySubmit;
+    
+    // aqui voy a usar context para conocer la ruta que recibo del componente <Router>
+    const displayTodos = filterTodos(this.state.todos, this.context.route)
     return (
       <div className="App">
         <header className="App-header">
@@ -107,7 +119,7 @@ class App extends Component {
           />
           <TodoList
             handleToggle={this.handleToggle}
-            todos={this.state.todos}
+            todos={displayTodos}
             handleRemove = {this.handleRemove}
           />
           <Footer />
