@@ -13,7 +13,7 @@ import {
   removeTodo,
   filterTodos,
 } from "./lib/todoHelpers";
-import { loadTodos, createTodo, saveTodo } from "./lib/todoService";
+import { loadTodos, createTodo, saveTodo, destroyTodo } from "./lib/todoService";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
@@ -41,6 +41,8 @@ class App extends Component {
     event.preventDefault();
     const updatedTodos = removeTodo(this.state.todos, id);
     this.setState({ todos: updatedTodos });
+    destroyTodo(id)
+      .then(() => this.showTempMessage('todo Removed'));
   };
 
   handleToggle = (id) => {

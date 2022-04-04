@@ -28,26 +28,11 @@
     {
       "id": 64036,
       "name": "Another new todo",
-      "isComplete": false
+      "isComplete": true
     },
     {
       "id": 6335,
       "name": "and another one...",
-      "isComplete": false
-    },
-    {
-      "id": 20031,
-      "name": "a ver...",
-      "isComplete": true
-    },
-    {
-      "id": 56297,
-      "name": "ahora si...",
-      "isComplete": false
-    },
-    {
-      "id": 97309,
-      "name": "a ver de nuevo",
       "isComplete": false
     }
   ]
