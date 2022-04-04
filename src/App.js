@@ -4,38 +4,51 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import { TodoForm, TodoList, Footer } from "./components/todo";
-import { addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo, filterTodos } from "./lib/todoHelpers";
+import {
+  addTodo,
+  generateId,
+  findById,
+  toggleTodo,
+  updateTodo,
+  removeTodo,
+  filterTodos,
+} from "./lib/todoHelpers";
+import { loadTodos } from "./lib/todoService";
 
 class App extends Component {
   // con PIS state ahora es una instance property de la clase APP y sigue siendo accesible como this.state
   state = {
-    todos: [
-      { id: 1, name: "Learn JSX", isComplete: true },
-      { id: 2, name: "Build an Awesome App", isComplete: false },
-      { id: 3, name: "Ship It!", isComplete: false },
-    ],
+    // vamos a buscar los todos a mi todoService, asi que vamos a mantener initial todos como empty []
+    // todos: [
+    //   { id: 1, name: "Learn JSX", isComplete: true },
+    //   { id: 2, name: "Build an Awesome App", isComplete: false },
+    //   { id: 3, name: "Ship It!", isComplete: false },
+    // ],
+    todos: [],
     currentTodo: "",
   };
 
-
   // vamos a tomar la ruta actual desde context
   static contextTypes = {
-    route: PropTypes.string
-  }
+    route: PropTypes.string,
+  };
 
+  componentDidMount() {
+    loadTodos().then((todos) => this.setState({ todos }));
+  }
 
   handleRemove = (id, event) => {
-    event.preventDefault()
-    const updatedTodos = removeTodo(this.state.todos, id)
-    this.setState({todos: updatedTodos})
-  }
+    event.preventDefault();
+    const updatedTodos = removeTodo(this.state.todos, id);
+    this.setState({ todos: updatedTodos });
+  };
 
   handleToggle = (id) => {
-    const todo = findById(id, this.state.todos)
-    const toggled = toggleTodo(todo)
-    const updatedTodos = updateTodo(this.state.todos, toggled)
-    this.setState({todos: updatedTodos})
-  }
+    const todo = findById(id, this.state.todos);
+    const toggled = toggleTodo(todo);
+    const updatedTodos = updateTodo(this.state.todos, toggled);
+    this.setState({ todos: updatedTodos });
+  };
 
   // React agrego "Property Initializer Syntax (PIS)". Vamos a demostrarlo transformando el constructor en un
   // property initializer. Y podemos luego tambien evitar el binding de los metodos de la clase
@@ -44,19 +57,19 @@ class App extends Component {
   // constructor() {
   //   super();
 
-    // this.state = {
-    //   todos: [
-    //     { id: 1, name: "Learn JSX", isComplete: true },
-    //     { id: 2, name: "Build an Awesome App", isComplete: false },
-    //     { id: 3, name: "Ship It!", isComplete: false },
-    //   ],
-    //   currentTodo: "",
-    // };
+  // this.state = {
+  //   todos: [
+  //     { id: 1, name: "Learn JSX", isComplete: true },
+  //     { id: 2, name: "Build an Awesome App", isComplete: false },
+  //     { id: 3, name: "Ship It!", isComplete: false },
+  //   ],
+  //   currentTodo: "",
+  // };
 
-    // si usamos PIS no necesitamos usar este extra binding. Para ello necesitamos a setear las funciones como properties
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
+  // si usamos PIS no necesitamos usar este extra binding. Para ello necesitamos a setear las funciones como properties
+  // this.handleInputChange = this.handleInputChange.bind(this);
+  // this.handleSubmit = this.handleSubmit.bind(this);
+  // this.handleEmptySubmit = this.handleEmptySubmit.bind(this);
   // }
 
   // seteamos handleInputChange como propiedad
@@ -69,7 +82,7 @@ class App extends Component {
 
   // seteamos handleSubmit como propiedad
   handleSubmit = (event) => {
-  // handleSubmit(event) {
+    // handleSubmit(event) {
     event.preventDefault();
     const newId = generateId();
     const newTodo = {
@@ -83,24 +96,24 @@ class App extends Component {
       currentTodo: "",
       errorMessage: "",
     });
-  }
+  };
 
   // seteamos handleEmptySubmit como propiedad
   handleEmptySubmit = (event) => {
-  // handleEmptySubmit(event) {
+    // handleEmptySubmit(event) {
     event.preventDefault();
     this.setState({
       errorMessage: "Please supply a todo name",
     });
-  }
+  };
 
   render() {
     const submitHandler = this.state.currentTodo
       ? this.handleSubmit
       : this.handleEmptySubmit;
-    
+
     // aqui voy a usar context para conocer la ruta que recibo del componente <Router>
-    const displayTodos = filterTodos(this.state.todos, this.context.route)
+    const displayTodos = filterTodos(this.state.todos, this.context.route);
     return (
       <div className="App">
         <header className="App-header">
@@ -120,7 +133,7 @@ class App extends Component {
           <TodoList
             handleToggle={this.handleToggle}
             todos={displayTodos}
-            handleRemove = {this.handleRemove}
+            handleRemove={this.handleRemove}
           />
           <Footer />
         </div>
